@@ -46,6 +46,10 @@ SELECT id, account_id, total_amt_usd
 FROM orders
 ORDER BY account_id, total_amt_usd DESC;
 
+SELECT id, account_id, total_amt_usd
+FROM orders
+ORDER BY total_amt_usd DESC, account_id;
+
 
 /*
 1. Write a query that returns the top 5 rows from orders ordered according 
@@ -66,10 +70,6 @@ FROM orders
 ORDER BY occurred_at, total_amt_usd
 LIMIT 10;
 
-
-
-
-
 /*
 Write a query that
 1. Pull the first 5 rows and all columns from the orders table that have a 
@@ -87,10 +87,6 @@ SELECT *
 FROM orders
 WHERE total_amt_usd < 500
 LIMIT 10;
-
-
-
-
 
 /*
 Filter the accounts table to include the company name, website, and the primary 
