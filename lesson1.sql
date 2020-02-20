@@ -97,10 +97,6 @@ SELECT name, website, primary_poc
 FROM accounts
 WHERE name = 'Exxon Mobil';
 
-
-
-
-
 /*
 Using the orders table:
 1. Create a column that divides the standard_amt_usd by the standard_qty to find 
@@ -111,26 +107,26 @@ for each order. You will need to use only the columns that end with _usd. (Try t
 this without using the total column). Include the id and account_id fields.
 */
 
-# DERIVED COLUMNS
-SELECT id, account_id, 
-	standard_amt_usd/standard_qty as unit_price
+-- DERIVED COLUMNS
+SELECT id, 
+       account_id, 
+	     standard_amt_usd/standard_qty AS unit_price
 FROM orders
 LIMIT 10;
 
-SELECT id, account_id,
-	 poster_amt_usd/(poster_amt_usd + gloss_amt_usd + standard_amt_usd + 1e-10) as poster_paper_revenue
+SELECT id, 
+       account_id,
+	     poster_amt_usd/(poster_amt_usd + gloss_amt_usd + standard_amt_usd + 1e-10) AS poster_paper_revenue
 FROM orders;
 
-
-
-
-
+'''
 /*
 Use the accounts table to find
 1. All the companies whose names start with 'C'. 
 2. All companies whose names contain the string 'one' somewhere in the name.
 3. All companies whose names end with 's'.
 */
+'''
 
 # LIKE with %
 SELECT *
@@ -145,10 +141,6 @@ SELECT *
 FROM accounts
 WHERE name LIKE '%s';
 
-
-
-
-
 /*
 1. Use the accounts table to find the account name, primary_poc, and sales_rep_id 
 for Walmart, Target, and Nordstrom.
@@ -156,7 +148,7 @@ for Walmart, Target, and Nordstrom.
 contacted via the channel of organic or adwords.
 */
 
-# IN clause
+-- IN clause
 SELECT name, primary_poc, sales_rep_id
 FROM accounts
 WHERE name IN ('Walmart', 'Target', 'Nordstrom');
@@ -164,9 +156,6 @@ WHERE name IN ('Walmart', 'Target', 'Nordstrom');
 SELECT *
 FROM web_events
 WHERE channel IN ('organic', 'adwords');
-
-
-
 
 
 /*
@@ -182,7 +171,7 @@ Use the accounts table to find:
 5. All companies whose names do not end with 's'.
 */
 
-# NOT clause
+-- NOT clause
 SELECT name, primary_poc, sales_rep_id
 FROM accounts
 WHERE name NOT IN ('Walmart', 'Target', 'Nordstrom');
@@ -203,21 +192,18 @@ SELECT *
 FROM accounts
 WHERE name NOT LIKE '%s';
 
+'''
+Questions using AND and BETWEEN operators
+1. Write a query that returns all the orders where the standard_qty is over 1000, the poster_qty is 0, and the gloss_qty is 0.
 
+2. Using the accounts table, find all the companies whose names do not start with 'C' and end with 's'.
 
+3. When you use the BETWEEN operator in SQL, do the results include the values of your endpoints, or not? Figure out the answer to this important question by writing a query that displays the order date and gloss_qty data for all orders where gloss_qty is between 24 and 29. Then look at your output to see if the BETWEEN operator included the begin and end values or not.
 
+4. Use the web_events table to find all information regarding individuals who were contacted via the organic or adwords channels, and started their account at any point in 2016, sorted from newest to oldest.
+'''
 
-/*
-1. Write a query that returns all the orders where the standard_qty is over 1000, the 
-poster_qty is 0, and the gloss_qty is 0.
-2. Using the accounts table find all the companies whose names do not start with 'C' and 
-end with 's'.
-3. Use the web_events table to find all information regarding individuals who were 
-contacted via organic or adwords and started their account at any point in 2016 sorted 
-from newest to oldest.
-*/
-
-# AND and BETWEEN
+-- AND and BETWEEN
 SELECT *
 FROM orders
 WHERE standard_qty > 1000 and 
@@ -230,15 +216,16 @@ FROM accounts
 WHERE name NOT LIKE 'C%' and 
 	name NOT LIKE '%s' ;
 
+SELECT occurred_at, gloss_qty
+FROM orders
+WHERE gloss_qty BETWEEN 24 AND 29
+
 
 SELECT *
 FROM web_events
 WHERE channel IN ('organic', 'adwords') 
 	AND occurred_at BETWEEN '2016-01-01' AND '2017-01-01'
 ORDER BY occurred_at DESC;
-
-
-
 
 
 /*
@@ -250,19 +237,16 @@ the gloss_qty or poster_qty is over 1000.
 'ana' or 'Ana', but it doesn't contain 'eana'.
 */
 
-# OR clause
+--OR clause
 SELECT id
 FROM orders
 WHERE gloss_qty > 4000 
 	OR poster_qty > 4000;
 
-
 SELECT *
 FROM orders
 WHERE (gloss_qty > 1000 OR poster_qty > 1000)
     AND standard_qty = 0;
-
-
 
 SELECT *
 FROM accounts
