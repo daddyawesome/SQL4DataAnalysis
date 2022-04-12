@@ -29,4 +29,5 @@ For the remaining ones, please refer these [SQL Tutorials](https://community.mod
 
 
 
-
+## YOUTUBE
+[SQL LANG](https://www.youtube.com/watch?v=qw--VYLpxG4) 54:44
